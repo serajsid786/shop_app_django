@@ -1,0 +1,73 @@
+{% extends 'shop/base.html' %}
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <form class="card card-sm">
+            <div class="card-body row no-gutters align-items-center">
+                <div class="col">
+                    <input type="search" name="product_name" placeholder="Search for product" class="form-control form-control-borderless">
+                </div>
+                <div class="col-auto">
+                    <button class="bg-indigo-500 text-white my-2 px-2 py-1" type="submit">Search</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="product-container flex">
+{% for product in products %}
+    <div class="product shadow-lg w-1/4 rounded-lg m-10">
+        <div class="product-image">
+            <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y2xvdGhpbmclMjBzdG9yZXxlbnwwfHwwfHx8MA%3D%3D&w=1000&q=80" alt="">
+        </div>
+        <div class="p-5">
+            <div class="font-bold">
+                {{ product.name }}
+            </div>
+            <div>
+                {{ product.description }}
+            </div>
+            
+            <div class="text-green-700 font-bold">
+                Rs {{ product.price }}
+            </div>
+            <div class="mt-5">
+                <a class="bg-green-500 text-white px-4 py-2" href="{% url 'shop:detail' product.id %}">View Details</a>
+            </div>
+        </div>
+
+    </div>
+{% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-md-3 offset-md-4">
+        <ul class="pagination">
+            {% if products.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+            </li>
+            {% endif %}
+
+            <li class="page-item active">
+                <a class="page-link" href="?page={{ products.number }}">Current</a>
+            </li>
+
+            {% if products.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+
+<div class="text-green-500">
+        {% if messages %}
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+        {% endif %}
+</div>
+
+{% endblock %}
